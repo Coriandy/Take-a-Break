@@ -1,0 +1,33 @@
+import time
+import webbrowser
+from urllib2 import Request, urlopen, URLError
+
+count = 0
+counter = input('How many pauses do you want? ')
+timer = input('How long the pauses are? (in seconds) ')
+errurl = True
+
+while (errurl == True):
+    url = raw_input("Paste alert song url here: ")
+    req = Request(url)
+    try:
+        response = urlopen(req)
+    except URLError, e:
+        if hasattr(e, "reason"):
+            print "Invalid URL"
+            print "Reason: ", e.reason
+            errurl = True
+        elif hasattr(e, "code"):
+            print "Server couldn\'t fulfill the request"
+            print "Error code: ". e.code
+            errurl = True
+    else:
+        print "Starting program."
+        errurl = False
+
+print ("This program started at "+time.ctime())
+
+while (count<counter):
+    time.sleep(timer)
+    webbrowser.open(url)
+    count = count + 1
